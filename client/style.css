@@ -1,0 +1,19 @@
+.nodes { 
+  width: auto; 
+  height: auto;
+  margin-top: 5px; 
+  word-wrap:break-word;
+  border: 2px solid black; 
+}
+
+h3.nodes { 
+  margin-left: 10px; 
+}
+
+p.nodes {
+  margin-left: 10px;
+}
+
+a.nodes { 
+  margin-left: 10px; 
+}

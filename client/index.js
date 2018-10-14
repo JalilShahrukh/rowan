@@ -12,33 +12,64 @@ $(document).ready(function() {
     }).then((response) => { 
       return response.json();
     }).then((resturants) => { 
-      var node = document.createElement('div'); 
-      resturantsData = resturants.body.businesses; 
-      console.log('RESTURANTS!', resturants);
-      for (let i = 0; i < resturants.body.businesses.length; i++) { 
-        node = document.createElement('div'); 
-        node.innerText = resturants.body.businesses[i];
-        display.appendChild(node); 
-      } 
-      display.appendChild(list); 
+      resturantsData = resturants.jsonBody.businesses; 
+      let output = `<h2>Resturants</h2>`;
+      resturantsData.forEach(function(resturant) {
+        if (resturant.price === undefined) resturant.price = '$'; 
+        output += ` 
+          <div class="nodes">
+            <h3>${resturant.name}</h3>
+            <p><strong>Address: </strong> ${resturant.location.address1 + ", " + resturant.location.city + " " + resturant.location.state + " " + resturant.location.zip_code}</p>
+            <p><strong>Phone: </strong>${resturant.phone}</p>
+            <p><strong>Price: </strong>${resturant.price}</p>
+            <p><strong>Rating: </strong>${resturant.rating}</p>
+            <a href=${resturant.url}>${resturant.url}</a>  
+          </div>
+        `;
+      }); 
+      display.innerHTML = output; 
     });
   });
 
-  document.getElementById('sortByPrice').addEventListener('click', function() {
+  document.getElementById('sortByPrice').addEventListener('click', function(e) {
+    if (display.innerHTML === '') e.preventDefault(); 
     var resturantsSortedByPrice = resturantsData.slice(); 
-    resturantsSortedByPrice.sort((a, b) => { return a.price.length - b.price.length });
-    let node = document.createElement('div');
-    for (let i = 0; i < resturantsSortedByPrice.length; i++) { 
-      node = document.createElement('div');
-    }  
+    resturantsSortedByPrice.sort((a, b) => { return b.price.length - a.price.length });
+
+    let output = `<h2>Resturants</h2>`;
+    resturantsSortedByPrice.forEach(function(resturant) {
+      output += ` 
+        <div class="nodes">
+          <h3>${resturant.name}</h3>
+          <p><strong>Address: </strong> ${resturant.location.address1 + ", " + resturant.location.city + " " + resturant.location.state + " " + resturant.location.zip_code}</p>
+          <p><strong>Phone: </strong>${resturant.phone}</p>
+          <p><strong>Price: </strong>${resturant.price}</p>
+          <p><strong>Rating: </strong>${resturant.rating}</p>
+          <a href=${resturant.url}>${resturant.url}</a>  
+        </div>
+      `;
+    }); 
+    display.innerHTML = output;
   });
 
-  document.getElementById('sortByRating').addEventListener('click', function() {
+  document.getElementById('sortByRating').addEventListener('click', function(e) {
+    if (display.innerHTML === '') e.preventDefault();
     var resturantsSortedByRating = resturantsData.slice();
-    resturantsSortedByRating.sort((a, b) => { return parseInt(a.rating) - parseInt(b.rating) });
-    let node = document.createElement('div');
-    for (let i = 0; i < resturantsSortedByRating.length; i++) { 
-      node = document.createElement('div');
-    } 
+    resturantsSortedByRating.sort((a, b) => { return parseFloat(b.rating) - parseFloat(a.rating) });
+
+    let output = `<h2>Resturants</h2>`;
+    resturantsSortedByRating.forEach(function(resturant) {
+      output += ` 
+        <div class="nodes">
+          <h3>${resturant.name}</h3>
+          <p><strong>Address: </strong> ${resturant.location.address1 + ", " + resturant.location.city + " " + resturant.location.state + " " + resturant.location.zip_code}</p>
+          <p><strong>Phone: </strong>${resturant.phone}</p>
+          <p><strong>Price: </strong>${resturant.price}</p>
+          <p><strong>Rating: </strong>${resturant.rating}</p>
+          <a href=${resturant.url}>${resturant.url}</a>  
+        </div>
+      `;
+    }); 
+    display.innerHTML = output;
   });
 }); 
